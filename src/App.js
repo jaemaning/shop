@@ -1,7 +1,9 @@
 import './App.css';
-import { Navbar, Container, Nav, Row, Col, TabContainer } from 'react-bootstrap';
+import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
 import data from './data.js';
 import { useState } from 'react';
+import { Routes, Route, Link } from 'react-router-dom'
+import Detail from './routes/Detail.js'
 
 function App() {
 
@@ -9,6 +11,7 @@ function App() {
 
   return (
     <div className="App">
+
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">Jaem</Navbar.Brand>
@@ -21,17 +24,26 @@ function App() {
       </Navbar>
       <div className='main-big'></div>
 
-      <Container>
-        <Row>
-          {
-            shoes.map(function (a, i) {
-              return (
-                <Card shoes={shoes[i]} i={i + 1}></Card>
-              )
-            })
-          }
-        </Row>
-      </Container>
+
+      <Routes>
+        <Route path='/' element={
+          <>
+            <Container>
+              <Row>
+                {
+                  shoes.map(function (a, i) {
+                    return (
+                      <Card shoes={shoes[i]} i={i + 1}></Card>
+                    )
+                  })
+                }
+              </Row>
+            </Container>
+          </>
+        } />
+        <Route path='/detail' element={<Detail />} />
+        <Route path='/about' element={<div>about 페이지임</div>} />
+      </Routes>
 
     </div >
   );
@@ -47,6 +59,5 @@ function Card(props) {
     </Col>
   )
 }
-
 
 export default App;
