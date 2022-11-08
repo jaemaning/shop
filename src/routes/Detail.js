@@ -1,4 +1,11 @@
 import { useParams } from "react-router-dom"
+import styled from 'styled-components'
+
+let Btn = styled.button`
+  background : ${props => props.bg};
+  color : black;
+  padding : 10px;
+`
 
 function Detail(props) {
 
@@ -8,6 +15,7 @@ function Detail(props) {
 
     return (
         <div className="container">
+            <Btn bg='yellow'>버튼</Btn>
             <div className="row">
                 <div className="pos-center">
                     <img src={"https://codingapple1.github.io/shop/shoes" + picnum + ".jpg"} width="100%" />
