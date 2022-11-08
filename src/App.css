@@ -7,6 +7,20 @@
   pointer-events: none;
 }
 
+.alertRedbox {
+  background-color: red;
+  border-radius: 2px;
+  width: 50%;
+  margin-left: 25%;
+  color: white;
+  font-size: 10;
+}
+
+.inputbox {
+  border-radius: 1px;
+  border-color: red;
+}
+
 .pos-center {
   display: flex;
   width: 60%;
