@@ -11,6 +11,9 @@ function App() {
 
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  let [clicknum, setClicknum] = useState(2);
+  let [btncatch, setBtncatch] = useState(false);
+  let [loading, setLoading] = useState(false);
 
   return (
     <div className="App">
@@ -42,11 +45,28 @@ function App() {
                 }
               </Row>
             </Container>
+            {
+              loading == true ? <div>로 딩 중 . . .</div> : null
+            }
             <button onClick={() => {
-              axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
-                console.log(result.data[0]); let new_shoes = [...shoes, ...result.data]; setShoes(new_shoes)
+              axios.get('https://codingapple1.github.io/shop/data' + clicknum + '.json').then((result) => {
+                setLoading(true);
+                let new_shoes = [...shoes, ...result.data];
+                setShoes(new_shoes);
+                setClicknum(clicknum + 1);
+                setLoading(false);
               })
+                .catch(() => {
+                  setBtncatch(true);
+                  setLoading(false);
+                })
             }}>더보기</button>
+
+
+            {
+              btncatch == true ? <div>더이상 상품이 없습니다.</div> : null
+            }
+
           </>
         } />
         <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
