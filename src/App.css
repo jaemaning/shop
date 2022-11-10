@@ -16,6 +16,16 @@
   font-size: 10;
 }
 
+.start {
+  opacity: 0;
+  margin-bottom: 100px;
+}
+
+.end {
+  opacity: 1;
+  transition: 1s;
+}
+
 .orderBtn {
   margin-bottom: 30px;
 }

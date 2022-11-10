@@ -28,14 +28,17 @@ function Detail(props) {
         }
     }
 
-
-
     let { id } = useParams();
     let dataid = props.shoes[id].id
     let picnum = Number(dataid) + 1;
+    let [fade2, setFade2] = useState('')
+
+    useEffect(() => {
+        setFade2('end')
+    }, [])
 
     return (
-        <div className="container">
+        <div className={"container start " + fade2}>
             {
                 alertdiv == true ?
                     <div className="alert alert-warning">
@@ -78,13 +81,20 @@ function Detail(props) {
 }
 
 function Tabcontent(props) {
-    if (props.modalonbtn == 0) {
-        return <div>상세정보</div>
-    } else if (props.modalonbtn == 1) {
-        return <div>리뷰</div>
-    } else if (props.modalonbtn == 2) {
-        return <div>Q&A</div>
-    }
+
+    let [fade, setFade] = useState('')
+
+    useEffect(() => {
+        let a = setTimeout(() => { setFade('end') }, 10)
+        return () => {
+            setFade('')
+            clearTimeout(a)
+        }
+    }, [props.modalonbtn])
+
+    return (<div className={"start " + fade}>
+        {[<div>상세정보</div>, <div>리뷰</div>, <div>Q&A</div>][props.modalonbtn]}
+    </div>)
 }
 
 export default Detail
