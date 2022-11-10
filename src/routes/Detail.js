@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Tab } from "react-bootstrap";
 import { useParams } from "react-router-dom"
 
 
@@ -7,6 +8,8 @@ function Detail(props) {
 
     let [alertdiv, setAlertdiv] = useState(true)
     let [alertbox, setAlertbox] = useState(false)
+    let [btn, setBtn] = useState(['상세정보', '리뷰', 'Q&A'])
+    let [modalonbtn, setModalonbtn] = useState(0)
 
     useEffect(() => {
         let a = setTimeout(() => { setAlertdiv(false) }, 2000)
@@ -54,11 +57,34 @@ function Detail(props) {
                     <h4 className="pt-5">{props.shoes[dataid].title}</h4>
                     <p>{props.shoes[dataid].content}</p>
                     <p>{props.shoes[dataid].price} 원</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <button className="btn btn-danger orderBtn">주문하기</button>
                 </div>
             </div>
+            <div>
+                {
+                    btn.map(function (a, i) {
+                        return (
+                            <button className="modalBtn" onClick={() => {
+                                setModalonbtn(i)
+                            }}>{a}</button>
+                        )
+                    })
+                }
+            </div>
+            <Tabcontent modalonbtn={modalonbtn} />
+
         </div >
     )
+}
+
+function Tabcontent(props) {
+    if (props.modalonbtn == 0) {
+        return <div>상세정보</div>
+    } else if (props.modalonbtn == 1) {
+        return <div>리뷰</div>
+    } else if (props.modalonbtn == 2) {
+        return <div>Q&A</div>
+    }
 }
 
 export default Detail
