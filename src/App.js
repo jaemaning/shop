@@ -5,6 +5,7 @@ import { useState, createContext } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
+import Cart from './routes/Cart.js'
 
 export let Context1 = createContext();
 
@@ -85,7 +86,9 @@ function App() {
           <Route path='two' element={<div>생일기념 쿠폰받기</div>} />
         </Route>
         <Route path='/all' element={<div>404 page error</div>} />
+        <Route path='/cart' element={<Cart />}></Route>
       </Routes>
+
 
     </div >
   );
