@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Tab } from "react-bootstrap";
 import { useParams } from "react-router-dom"
-
+import { Context1 } from "./../App.js"
 
 
 function Detail(props) {
+
+    let { 재고 } = useContext(Context1)
 
     let [alertdiv, setAlertdiv] = useState(true)
     let [alertbox, setAlertbox] = useState(false)
@@ -74,13 +76,14 @@ function Detail(props) {
                     })
                 }
             </div>
-            <Tabcontent modalonbtn={modalonbtn} />
-
+            <Tabcontent shoes={props.shoes} modalonbtn={modalonbtn} />
         </div >
     )
 }
 
 function Tabcontent(props) {
+
+    let { 재고 } = useContext(Context1)
 
     let [fade, setFade] = useState('')
 
@@ -93,7 +96,7 @@ function Tabcontent(props) {
     }, [props.modalonbtn])
 
     return (<div className={"start " + fade}>
-        {[<div>상세정보</div>, <div>리뷰</div>, <div>Q&A</div>][props.modalonbtn]}
+        {[<div>{props.shoes[0].title}</div>, <div>리뷰</div>, <div>Q&A</div>][props.modalonbtn]}
     </div>)
 }
 

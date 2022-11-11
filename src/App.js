@@ -1,11 +1,12 @@
 import './App.css';
 import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
 import data from './data.js';
-import { useState } from 'react';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import Detail from './routes/Detail.js'
-import axios from 'axios'
+import { useState, createContext } from 'react';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import Detail from './routes/Detail.js';
+import axios from 'axios';
 
+export let Context1 = createContext();
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
   let [clicknum, setClicknum] = useState(2);
   let [btncatch, setBtncatch] = useState(false);
   let [loading, setLoading] = useState(false);
+  let [재고] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -69,7 +71,11 @@ function App() {
 
           </>
         } />
-        <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
+        <Route path='/detail/:id' element={
+          <Context1.Provider value={{ 재고, shoes }}>
+            <Detail shoes={shoes} />
+          </Context1.Provider>
+        } />
         <Route path='/about' element={<About />}>
           <Route path='member' element={<div>멤버임</div>} />
           <Route path='location' element={<div>위치정보임</div>} />
