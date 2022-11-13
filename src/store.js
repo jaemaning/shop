@@ -1,23 +1,25 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+import shoppinglist from './store/shoppinglistSlice.js'
 
 let user = createSlice({
     name: 'user',
-    initialState: 'kim'
+    initialState: { name: 'jaeman', age: 20 },
+    reducers: {
+        changeName(state) {
+            return {
+                ...state,
+                age: 30
+            }
+        }
+    }
 })
+
+export let { changeName } = user.actions
 
 let stock = createSlice({
     name: 'stock',
-    initialState: [10, 20, 13]
+    initialState: [10, 20, 13],
 })
-
-let shoppinglist = createSlice({
-    name: 'shoppinglist',
-    initialState: [
-        { id: 0, name: 'White and Black', count: 2 },
-        { id: 2, name: 'Grey Yordan', count: 1 }
-    ]
-})
-
 
 export default configureStore({
     reducer: {
