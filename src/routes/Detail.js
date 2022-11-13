@@ -2,9 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { Tab } from "react-bootstrap";
 import { useParams } from "react-router-dom"
 import { Context1 } from "./../App.js"
+import { cartAdd } from './../store/shoppinglistSlice.js'
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function Detail(props) {
+
+    let shoppinglist = useSelector((state) => { return state.shoppinglist });
+    let dispatch = useDispatch();
 
     let { 재고 } = useContext(Context1)
 
@@ -62,7 +67,9 @@ function Detail(props) {
                     <h4 className="pt-5">{props.shoes[dataid].title}</h4>
                     <p>{props.shoes[dataid].content}</p>
                     <p>{props.shoes[dataid].price} 원</p>
-                    <button className="btn btn-danger orderBtn">주문하기</button>
+                    <button className="btn btn-danger orderBtn" onClick={() => {
+                        dispatch(cartAdd({ id: props.shoes[dataid].id, name: props.shoes[dataid].title, count: 1 }));
+                    }}>주문하기</button>
                 </div>
             </div>
             <div>
