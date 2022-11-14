@@ -36,12 +36,22 @@ function Detail(props) {
     }
 
     let { id } = useParams();
-    let dataid = props.shoes[id].id
+    let dataid = props.shoes[id].id;
     let picnum = Number(dataid) + 1;
-    let [fade2, setFade2] = useState('')
+    let [fade2, setFade2] = useState('');
+
+
 
     useEffect(() => {
         setFade2('end')
+    }, [])
+
+    useEffect(() => {
+        let storageData = JSON.parse(localStorage.getItem('watched'));
+        storageData.push(id);
+        const set = new Set(storageData);
+        storageData = [...set]
+        localStorage.setItem('watched', JSON.stringify(storageData));
     }, [])
 
     return (

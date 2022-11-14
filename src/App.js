@@ -1,11 +1,12 @@
 import './App.css';
 import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
 import data from './data.js';
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js'
+
 
 export let Context1 = createContext();
 
@@ -18,9 +19,16 @@ function App() {
   let [loading, setLoading] = useState(false);
   let [재고] = useState([10, 11, 12]);
 
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('watched')) == null) {
+      localStorage.setItem('watched', JSON.stringify([]))
+    }
+  }, [])
+
+
+
   return (
     <div className="App">
-
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand onClick={() => { navigate('/') }}>Jaem</Navbar.Brand>
@@ -43,7 +51,7 @@ function App() {
                 {
                   shoes.map(function (a, i) {
                     return (
-                      <Card shoes={shoes[i]} i={i + 1}></Card>
+                      <Card shoes={shoes[i]} i={i} a={a} ></Card>
                     )
                   })
                 }
@@ -96,9 +104,13 @@ function App() {
 }
 
 function Card(props) {
+  let navigate = useNavigate()
+  let j = props.i + 1
   return (
-    <Col md={4}>
-      <img src={'https://codingapple1.github.io/shop/shoes' + props.i + '.jpg'} width="80%"></img>
+    <Col md={4} onClick={() => {
+      navigate('/detail/' + props.i)
+    }}>
+      <img src={'https://codingapple1.github.io/shop/shoes' + j + '.jpg'} width="80%"></img>
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content}</p>
       <p>{props.shoes.price} 원</p>
