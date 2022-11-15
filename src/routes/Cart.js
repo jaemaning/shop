@@ -2,6 +2,17 @@ import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOne, minusOne } from './../store/shoppinglistSlice.js'
 import { changeName } from './../store.js'
+import { useState } from 'react';
+
+// Cart 웹 페이지
+
+
+// let Child = memo(function () {
+//     console.log('재렌더링됨')
+//     return <div>자식임</div>
+// })
+
+// memo : props 가 변할 때만 재렌더링 해줌
 
 function Cart() {
 
@@ -9,6 +20,10 @@ function Cart() {
     let stock = useSelector((state) => { return state.stock });
     let user = useSelector((state) => { return state.user });
     let dispatch = useDispatch();
+    let [count, setCount] = useState(0)
+
+    //let result = useMemo(()=>{return usememoFunction(),[state]})
+    // useMemo : 컴포넌트 로드시 1회만 실행하고 싶은 코드가 있으면 거기 담으면 됩니다. 
 
     return (
         <div>
@@ -24,7 +39,7 @@ function Cart() {
                 <tbody>
                     {
                         shoppinglist.map((a, i) =>
-                            <tr>
+                            <tr key={i}>
                                 <td>{i}</td>
                                 <td>{shoppinglist[i].name}</td>
                                 <td>{shoppinglist[i].count}</td>
@@ -38,8 +53,6 @@ function Cart() {
                     }
                 </tbody>
             </Table>
-            <h4>{user.age}</h4>
-            <button onClick={() => { dispatch(changeName()) }}>asd</button>
         </div>
 
     )
