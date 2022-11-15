@@ -6,6 +6,7 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js'
+import { useQuery } from "react-query"
 
 
 export let Context1 = createContext();
@@ -26,6 +27,11 @@ function App() {
   }, [])
 
 
+  let result = useQuery('작명', () =>
+    axios.get('https://codingapple1.github.io/userdata.json')
+      .then((a) => { console.log('요청됨'); return a.data }),
+    { staleTime: 2000 }
+  )
 
   return (
     <div className="App">
@@ -38,6 +44,11 @@ function App() {
             <Nav.Link onClick={() => { navigate('/detail/0') }}>Detail</Nav.Link>
             <Nav.Link onClick={() => { navigate('/cart') }}>Cart</Nav.Link>
           </Nav>
+          <Navbar.Brand className='ms-auto'>
+            {result.isLoading && '로딩중'}
+            {result.error && '에러남'}
+            {result.data && result.data.name}
+          </Navbar.Brand>
         </Container>
       </Navbar>
       <div className='main-big'></div>
