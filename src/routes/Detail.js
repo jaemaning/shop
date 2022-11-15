@@ -86,7 +86,7 @@ function Detail(props) {
                 {
                     btn.map(function (a, i) {
                         return (
-                            <button className="modalBtn" onClick={() => {
+                            <button key={a} className="modalBtn" onClick={() => {
                                 setModalonbtn(i)
                             }}>{a}</button>
                         )

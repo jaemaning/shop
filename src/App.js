@@ -1,15 +1,24 @@
 import './App.css';
 import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
 import data from './data.js';
-import { useState, createContext, useEffect } from 'react';
+import React, { Suspense, useState, createContext, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-import Detail from './routes/Detail.js';
 import axios from 'axios';
-import Cart from './routes/Cart.js'
 import { useQuery } from "react-query"
+// import 탭
 
+// import Cart from './routes/Cart.js'
+// import Detail from './routes/Detail.js';
+
+const Detail = React.lazy(() => import('./routes/Detail.js'))
+const Cart = React.lazy(() => import('./routes/Cart.js'))
+
+// lazy import 탭
 
 export let Context1 = createContext();
+
+// context 활용
+
 
 function App() {
 
@@ -53,61 +62,62 @@ function App() {
       </Navbar>
       <div className='main-big'></div>
 
-
-      <Routes>
-        <Route path='/' element={
-          <>
-            <Container>
-              <Row>
-                {
-                  shoes.map(function (a, i) {
-                    return (
-                      <Card shoes={shoes[i]} i={i} a={a} ></Card>
-                    )
-                  })
-                }
-              </Row>
-            </Container>
-            {
-              loading == true ? <div>로 딩 중 . . .</div> : null
-            }
-            <button onClick={() => {
-              axios.get('https://codingapple1.github.io/shop/data' + clicknum + '.json').then((result) => {
-                setLoading(true);
-                let new_shoes = [...shoes, ...result.data];
-                setShoes(new_shoes);
-                setClicknum(clicknum + 1);
-                setLoading(false);
-              })
-                .catch(() => {
-                  setBtncatch(true);
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path='/' element={
+            <>
+              <Container>
+                <Row>
+                  {
+                    shoes.map(function (a, i) {
+                      return (
+                        <Card key={i} shoes={shoes[i]} i={i}></Card>
+                      )
+                    })
+                  }
+                </Row>
+              </Container>
+              {
+                loading == true ? <div>로 딩 중 . . .</div> : null
+              }
+              <button onClick={() => {
+                axios.get('https://codingapple1.github.io/shop/data' + clicknum + '.json').then((result) => {
+                  setLoading(true);
+                  let new_shoes = [...shoes, ...result.data];
+                  setShoes(new_shoes);
+                  setClicknum(clicknum + 1);
                   setLoading(false);
                 })
-            }}>더보기</button>
+                  .catch(() => {
+                    setBtncatch(true);
+                    setLoading(false);
+                  })
+              }}>더보기</button>
 
 
-            {
-              btncatch == true ? <div>더이상 상품이 없습니다.</div> : null
-            }
+              {
+                btncatch == true ? <div>더이상 상품이 없습니다.</div> : null
+              }
 
-          </>
-        } />
-        <Route path='/detail/:id' element={
-          <Context1.Provider value={{ 재고, shoes }}>
-            <Detail shoes={shoes} />
-          </Context1.Provider>
-        } />
-        <Route path='/about' element={<About />}>
-          <Route path='member' element={<div>멤버임</div>} />
-          <Route path='location' element={<div>위치정보임</div>} />
-        </Route>
-        <Route path='/event' element={<Eventpage />}>
-          <Route path='one' element={<div>첫 주문시 양배추즙 서비스</div>} />
-          <Route path='two' element={<div>생일기념 쿠폰받기</div>} />
-        </Route>
-        <Route path='/all' element={<div>404 page error</div>} />
-        <Route path='/cart' element={<Cart />}></Route>
-      </Routes>
+            </>
+          } />
+          <Route path='/detail/:id' element={
+            <Context1.Provider value={{ 재고, shoes }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          } />
+          <Route path='/about' element={<About />}>
+            <Route path='member' element={<div>멤버임</div>} />
+            <Route path='location' element={<div>위치정보임</div>} />
+          </Route>
+          <Route path='/event' element={<Eventpage />}>
+            <Route path='one' element={<div>첫 주문시 양배추즙 서비스</div>} />
+            <Route path='two' element={<div>생일기념 쿠폰받기</div>} />
+          </Route>
+          <Route path='/all' element={<div>404 page error</div>} />
+          <Route path='/cart' element={<Cart />}></Route>
+        </Routes>
+      </Suspense>
 
 
     </div >
@@ -116,6 +126,7 @@ function App() {
 
 function Card(props) {
   let navigate = useNavigate()
+  let a = props.a
   let j = props.i + 1
   return (
     <Col md={4} onClick={() => {
