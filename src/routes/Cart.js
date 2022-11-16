@@ -1,6 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOne, minusOne } from './../store/shoppinglistSlice.js'
+import { addOne, minusOne, deleteOne } from './../store/shoppinglistSlice.js'
 import { changeName } from './../store.js'
 import { useState } from 'react';
 
@@ -27,10 +27,10 @@ function Cart() {
 
     return (
         <div>
-            <Table striped bordered hover>
+            <Table striped bordered hover className='cart-table'>
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th> </th>
                         <th>상품명</th>
                         <th>수량</th>
                         <th>변경하기</th>
@@ -43,17 +43,23 @@ function Cart() {
                                 <td>{i}</td>
                                 <td>{shoppinglist[i].name}</td>
                                 <td>{shoppinglist[i].count}</td>
-                                <td><button className='changebtn' onClick={() => {
-                                    dispatch(addOne(i))
-                                }}>+</button> <button className='changebtn' onClick={() => {
-                                    dispatch(minusOne(i))
-                                }}>-</button></td>
+                                <td>
+                                    <button className='changebtn' onClick={() => {
+                                        dispatch(addOne(i))
+                                    }}>+</button>
+                                    <button className='changebtn' onClick={() => {
+                                        shoppinglist[i].count !== 1 ? dispatch(minusOne(i)) : dispatch(deleteOne(i))
+                                    }}>-</button>
+                                    <button className='changebtn' onClick={() => {
+                                        dispatch(deleteOne(i))
+                                    }}>X</button>
+                                </td>
                             </tr>
                         )
                     }
                 </tbody>
             </Table>
-        </div>
+        </div >
 
     )
 }

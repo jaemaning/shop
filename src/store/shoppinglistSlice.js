@@ -15,10 +15,13 @@ let shoppinglist = createSlice({
         },
         cartAdd(state, action) {
             state.push(action.payload)
+        },
+        deleteOne(state, action) {
+            state.splice(action.payload, 1)
         }
     }
 })
 
-export let { addOne, minusOne, cartAdd } = shoppinglist.actions;
+export let { addOne, minusOne, cartAdd, deleteOne } = shoppinglist.actions;
 
 export default shoppinglist

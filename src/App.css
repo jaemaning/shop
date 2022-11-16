@@ -50,6 +50,14 @@
   width: 200px;
 }
 
+.cart-table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  width: 90%;
+  table-layout: fixed;
+}
+
 .inputbox {
   border-radius: 1px;
   border-color: red;
@@ -62,8 +70,8 @@
 }
 
 .main-big {
-  height: 300px;
-  background-image: url('./image/bg.png');
+  height: 600px;
+  background-image: url('./image/bg.jpg');
   background-size: cover;
   background-position: center;
 }
