@@ -4,19 +4,20 @@ import { useParams } from "react-router-dom"
 import { Context1 } from "./../App.js"
 import { cartAdd } from './../store/shoppinglistSlice.js'
 import { useDispatch, useSelector } from 'react-redux';
-
+import { addOne, minusOne, deleteOne } from './../store/shoppinglistSlice.js'
 
 function Detail(props) {
 
     let shoppinglist = useSelector((state) => { return state.shoppinglist });
     let dispatch = useDispatch();
 
-    let { 재고 } = useContext(Context1)
+    let { 재고 } = useContext(Context1);
 
-    let [alertdiv, setAlertdiv] = useState(true)
-    let [alertbox, setAlertbox] = useState(false)
-    let [btn, setBtn] = useState(['상세정보', '리뷰', 'Q&A'])
-    let [modalonbtn, setModalonbtn] = useState(0)
+    let [alertdiv, setAlertdiv] = useState(true);
+    let [alertbox, setAlertbox] = useState(false);
+    let [alertcart, setAlertcart] = useState(false);
+    let [btn, setBtn] = useState(['상세정보', '리뷰', 'Q&A']);
+    let [modalonbtn, setModalonbtn] = useState(0);
 
     useEffect(() => {
         let a = setTimeout(() => { setAlertdiv(false) }, 2000)
@@ -39,6 +40,7 @@ function Detail(props) {
     let dataid = props.shoes[id].id;
     let picnum = Number(dataid) + 1;
     let [fade2, setFade2] = useState('');
+    let cartCheckId = 0;
 
 
 
@@ -78,7 +80,13 @@ function Detail(props) {
                     <p>{props.shoes[dataid].content}</p>
                     <p>{props.shoes[dataid].price} 원</p>
                     <button className="btn btn-danger orderBtn" onClick={() => {
-                        dispatch(cartAdd({ id: props.shoes[dataid].id, name: props.shoes[dataid].title, count: 1 }));
+                        let cartCheck = shoppinglist.some((value, i) => {
+                            if (value.id == props.shoes[dataid].id) {
+                                return cartCheckId = i, true;
+                            } else { return false }
+                        })
+                        cartCheck == true ? dispatch(addOne(cartCheckId)) : dispatch(cartAdd({ id: props.shoes[dataid].id, name: props.shoes[dataid].title, count: 1 }));
+                        alert('Cart에 담겼습니다.')
                     }}>주문하기</button>
                 </div>
             </div>
